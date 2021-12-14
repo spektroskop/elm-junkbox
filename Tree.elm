@@ -8,6 +8,7 @@ module Junkbox.Tree exposing
     , mapNode
     , node
     , singleton
+    , sortWith
     , tree
     )
 
@@ -59,3 +60,10 @@ flatten (Tree n cs) =
 fold : (a -> r -> r) -> r -> Tree a -> r
 fold f x (Tree n cs) =
     List.foldl (\t r -> fold f r t) (f n x) cs
+
+
+sortWith : (a -> a -> Order) -> Tree a -> Tree a
+sortWith predicate (Tree n cs) =
+    Tree n <|
+        List.map (sortWith predicate) <|
+            List.sortWith (\a b -> predicate (node a) (node b)) cs
