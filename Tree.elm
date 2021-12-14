@@ -1,8 +1,9 @@
-module Junkbox.RoseTree exposing
+module Junkbox.Tree exposing
     ( Tree
     , appendChild
     , children
     , flatten
+    , fold
     , map
     , mapNode
     , node
@@ -53,3 +54,8 @@ appendChild c (Tree n cs) =
 flatten : Tree a -> List a
 flatten (Tree n cs) =
     n :: List.concatMap flatten cs
+
+
+fold : (a -> r -> r) -> r -> Tree a -> r
+fold f x (Tree n cs) =
+    List.foldl (\t r -> fold f r t) (f n x) cs

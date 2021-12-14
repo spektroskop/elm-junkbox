@@ -1,4 +1,4 @@
-module Junkbox.RoseTree.Zipper exposing
+module Junkbox.Tree.Zipper exposing
     ( Zipper
     , firstChild
     , focus
@@ -19,7 +19,7 @@ module Junkbox.RoseTree.Zipper exposing
     )
 
 import Junkbox.Maybe as Maybe
-import Junkbox.RoseTree as Tree exposing (Tree)
+import Junkbox.Tree as Tree exposing (Tree)
 
 
 type alias Crumb a =
