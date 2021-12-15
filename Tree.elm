@@ -2,6 +2,7 @@ module Junkbox.Tree exposing
     ( Tree
     , appendChild
     , children
+    , filter
     , flatten
     , fold
     , map
@@ -66,4 +67,21 @@ sortWith : (a -> a -> Order) -> Tree a -> Tree a
 sortWith comparator (Tree n cs) =
     List.sortWith (\a b -> comparator (node a) (node b)) cs
         |> List.map (sortWith comparator)
+        |> Tree n
+
+
+filterHelp : (a -> Bool) -> Tree a -> Maybe (Tree a)
+filterHelp predicate (Tree n cs) =
+    if predicate n then
+        List.filterMap (filterHelp predicate) cs
+            |> Tree n
+            |> Just
+
+    else
+        Nothing
+
+
+filter : (a -> Bool) -> Tree a -> Tree a
+filter predicate (Tree n cs) =
+    List.filterMap (filterHelp predicate) cs
         |> Tree n
