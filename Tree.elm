@@ -63,7 +63,7 @@ fold f x (Tree n cs) =
 
 
 sortWith : (a -> a -> Order) -> Tree a -> Tree a
-sortWith predicate (Tree n cs) =
-    Tree n <|
-        List.map (sortWith predicate) <|
-            List.sortWith (\a b -> predicate (node a) (node b)) cs
+sortWith comparator (Tree n cs) =
+    List.sortWith (\a b -> comparator (node a) (node b)) cs
+        |> List.map (sortWith comparator)
+        |> Tree n
