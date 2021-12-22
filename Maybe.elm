@@ -1,6 +1,8 @@
 module Junkbox.Maybe exposing
     ( firstOf
+    , join
     , or
+    , withDefaultLazy
     )
 
 
@@ -27,3 +29,26 @@ firstOf options v =
 
                 Just r ->
                     Just r
+
+
+withDefaultLazy : (() -> a) -> Maybe a -> a
+withDefaultLazy d m =
+    case m of
+        Nothing ->
+            d ()
+
+        Just a ->
+            a
+
+
+join : Maybe (Maybe a) -> Maybe a
+join maybe =
+    case maybe of
+        Nothing ->
+            Nothing
+
+        Just Nothing ->
+            Nothing
+
+        Just (Just a) ->
+            Just a

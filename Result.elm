@@ -1,5 +1,7 @@
 module Junkbox.Result exposing
-    ( error
+    ( either
+    , error
+    , join
     , ok
     )
 
@@ -22,3 +24,26 @@ error result =
 
         Ok _ ->
             Nothing
+
+
+either : (x -> b) -> (a -> b) -> Result x a -> b
+either onErr onOk result =
+    case result of
+        Err x ->
+            onErr x
+
+        Ok a ->
+            onOk a
+
+
+join : Result x (Result x a) -> Result x a
+join result =
+    case result of
+        Err x ->
+            Err x
+
+        Ok (Err x) ->
+            Err x
+
+        Ok (Ok a) ->
+            Ok a
