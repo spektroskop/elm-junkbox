@@ -1,11 +1,17 @@
 module Junkbox.Decode exposing
-    ( nonEmptyList
+    ( andMap
+    , nonEmptyList
     , optionalString
     , requiredString
     )
 
 import Json.Decode as Decode exposing (Decoder)
 import Junkbox.Basics as Basics
+
+
+andMap : Decoder a -> Decoder (a -> b) -> Decoder b
+andMap =
+    Decode.map2 (|>)
 
 
 maybe : String -> Maybe a -> Decoder a
