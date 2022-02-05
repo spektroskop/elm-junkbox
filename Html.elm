@@ -52,10 +52,10 @@ when cond v =
         none
 
 
-whenLazy : a -> (a -> Bool) -> (a -> Html msg) -> Html msg
-whenLazy value check toHtml =
-    if check value then
-        toHtml value
+whenLazy : Bool -> (() -> Html msg) -> Html msg
+whenLazy cond value =
+    if cond then
+        value ()
 
     else
         none
@@ -66,6 +66,6 @@ unless cond =
     when (not cond)
 
 
-unlessLazy : a -> (a -> Bool) -> (a -> Html msg) -> Html msg
-unlessLazy value check =
-    whenLazy value (not << check)
+unlessLazy : Bool -> (() -> Html msg) -> Html msg
+unlessLazy cond value =
+    whenLazy (not cond) value
