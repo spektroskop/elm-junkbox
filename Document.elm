@@ -1,7 +1,7 @@
 module Junkbox.Document exposing
-    ( concat
-    , empty
+    ( empty
     , map
+    , merge
     , none
     , placeholder
     )
@@ -38,8 +38,8 @@ map fn doc =
     }
 
 
-concat : List (Browser.Document a) -> Browser.Document a
-concat docs =
-    { title = List.map (\{ title } -> title) docs |> String.join " - "
-    , body = List.map (\{ body } -> body) docs |> List.concat
+merge : String -> Browser.Document a -> Browser.Document a -> Browser.Document a
+merge sep doc1 doc2 =
+    { title = String.join sep [ doc2.title, doc1.title ]
+    , body = List.concat [ doc1.body, doc2.body ]
     }
